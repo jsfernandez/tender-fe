@@ -13,10 +13,7 @@
     height: fit-content;
     width: 280px;
 }
-.ant-card-head {
-    background-color: #1162a4 !important;
-    color: white !important;
-}
+
 .ant-drawer-content-wrapper {
     width: 90% !important;
     max-width: 500px !important;
