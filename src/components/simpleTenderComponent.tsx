@@ -8,12 +8,14 @@ export interface SimpleTenderProps {
   tender: Tender;
   markTender: (tender: Tender) => void;
   openDrawer: (codigo: string) => void;
+  setTender: (tender: Tender) => void;
 }
 
 export const SimpleTenderComponent: React.FC<SimpleTenderProps> = ({
   tender,
   markTender,
   openDrawer,
+  setTender,
 }) => {
   return (
     <Card
@@ -31,6 +33,7 @@ export const SimpleTenderComponent: React.FC<SimpleTenderProps> = ({
         <ZoomInOutlined
           key="search"
           onClick={() => {
+            setTender(tender);
             openDrawer(tender.CodigoExterno || "1");
           }}
         />,

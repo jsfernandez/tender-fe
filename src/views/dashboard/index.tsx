@@ -5,10 +5,8 @@ import {
   Input,
   Spin,
 } from "antd";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Tender } from "../../interfaces/tender";
-import { useGetTenderList } from "../../hooks/queries/useGetTenderList";
-import { useGetTenderByCode } from "../../hooks/queries/useGetTenderByCode";
 import { apiResponse } from "../../shared/mocks/tender-response";
 import { MarkedTenderComponent } from "../../components/markedTenderComponent";
 import { SimpleTenderComponent } from "../../components/simpleTenderComponent";
@@ -80,6 +78,7 @@ const Dashboard = () => {
                 <MarkedTenderComponent
                   openDrawer={openDrawer}
                   unmarkTender={unmarkTender}
+                  setTender={setTender}
                   tender={tender}
                   index={index}
                   key={tender.CodigoExterno}
@@ -95,6 +94,7 @@ const Dashboard = () => {
                 <SimpleTenderComponent
                   openDrawer={openDrawer}
                   markTender={markTender}
+                  setTender={setTender}
                   tender={tender as Tender}
                   key={tender.CodigoExterno}
                 />
@@ -102,7 +102,7 @@ const Dashboard = () => {
             })}
         </div>
       </Spin>
-      <TenderDetailsComponent tender={tender} onClose={onClose} open={open} />
+      <TenderDetailsComponent code={code} onClose={onClose} open={open} />
     </div>
   );
 };

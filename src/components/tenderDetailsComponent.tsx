@@ -1,15 +1,17 @@
 import { Collapse, Descriptions, Divider, Drawer, Skeleton, Tag } from "antd";
+import { useEffect, useState } from "react";
 import { BUDGE_TYPE_LABEL } from "../const/budge";
 import { PAYMENT_METHOD_LABEL } from "../const/paymentMethod";
 import { TENDER_TYPES_LABELS } from "../const/types";
 import { UNITS_TIME_LABEL } from "../const/unitsTime";
+import { useGetTenderByCode } from "../hooks/queries/useGetTenderByCode";
 import { Tender } from "../interfaces/tender";
 import { transformToCurrency } from "../shared/utils/currency";
 
 const { Panel } = Collapse;
 
 export interface TenderDetailsProps {
-  tender?: Tender;
+  code: string;
   onClose: () => void;
   open: boolean;
 }
@@ -17,8 +19,23 @@ export interface TenderDetailsProps {
 export const TenderDetailsComponent: React.FC<TenderDetailsProps> = ({
   onClose,
   open,
-  tender,
+  code,
 }) => {
+  const [tender, setTender] = useState<Tender>()
+  const { data, refetch } = useGetTenderByCode(code);
+  console.log({code})
+  useEffect(() => {
+    if (code) {
+      refetch()
+    }
+  }, [code]);
+
+  useEffect(()=> {
+    if (data) {
+      setTender(data.Listado[0])
+    }
+  }, [data]);
+
   return (
     <Drawer
       title="Información basica de la licitación"

@@ -9,6 +9,7 @@ export interface MarkedTenderProps {
   index: number;
   unmarkTender: (index: number) => void;
   openDrawer: (codigo: string) => void;
+  setTender: (tender: Tender) => void;
 }
 
 export const MarkedTenderComponent: React.FC<MarkedTenderProps> = ({
@@ -16,6 +17,7 @@ export const MarkedTenderComponent: React.FC<MarkedTenderProps> = ({
   index,
   unmarkTender,
   openDrawer,
+  setTender
 }) => {
   return (
     <Card
@@ -33,6 +35,7 @@ export const MarkedTenderComponent: React.FC<MarkedTenderProps> = ({
         <ZoomInOutlined
           key="search"
           onClick={() => {
+            setTender(tender);
             openDrawer(tender.CodigoExterno);
           }}
         />,
