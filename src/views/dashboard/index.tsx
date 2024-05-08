@@ -5,26 +5,52 @@ import {
   Input,
   Spin,
 } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Tender } from "../../interfaces/tender";
 import { apiResponse } from "../../shared/mocks/tender-response";
 import { MarkedTenderComponent } from "../../components/markedTenderComponent";
 import { SimpleTenderComponent } from "../../components/simpleTenderComponent";
 import { TenderDetailsComponent } from "../../components/tenderDetailsComponent";
+import { useGetTenderListByState } from "../../hooks/queries/useGetTendersListByState";
 
 const { Search } = Input;
 
 const Dashboard = () => {
+
   const [bookmarkedTenders, setBookmarkedTenders] = useState<Tender[]>();
   const [tender, setTender] = useState<Tender>();
   const [tenderList, setTenderList] = useState<Partial<Tender>[]>(apiResponse);
+  const [prevTenderList, setPrevTenderList] = useState<Partial<Tender>[]>(apiResponse);
   const [querySearch, setQuerySearch] = useState("");
   const [loading, setLoading] = useState(false);
 
   const [open, setOpen] = useState(false);
   const [code, setCode] = useState<string>("");
 
-  const onSearch = (value: string) => setQuerySearch(value);
+  const onSearch = (value: string) => {
+    setQuerySearch(value);
+
+    const filteredTenders = prevTenderList.filter((tender) => {
+      return tender.Nombre?.toLowerCase().includes(value.toLowerCase());
+    });
+
+    setTenderList(filteredTenders);
+  };
+
+  const { data, refetch } = useGetTenderListByState();
+
+  useEffect(() => {
+    if (data) {
+      setTenderList(data.Listado);
+      setPrevTenderList(data.Listado);
+    }
+  }, [data])
+
+  useEffect(() => {
+    setTenderList(tenderList.filter((tender) => {
+      return tender.Nombre?.toLowerCase().includes(querySearch.toLowerCase());
+    }))
+  }, [querySearch])
 
   const openDrawer = async (code: string) => {
     setOpen(true);
@@ -102,7 +128,9 @@ const Dashboard = () => {
             })}
         </div>
       </Spin>
-      <TenderDetailsComponent code={code} onClose={onClose} open={open} />
+      { code && (
+        <TenderDetailsComponent code={code} onClose={onClose} open={open} />
+      )}
     </div>
   );
 };

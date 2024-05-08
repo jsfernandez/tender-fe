@@ -6,5 +6,5 @@ export const useGetTenderByCode = (code: string) => {
         fetch(`http://localhost:3030/tender/code/${code}`).then(res =>
             res.json()
         )
-    , { enabled: true, staleTime: Infinity })
-}
+        , { enabled: true, staleTime: Infinity, cacheTime: 300000 })
+    }

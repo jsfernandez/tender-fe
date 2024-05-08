@@ -23,7 +23,7 @@ export const TenderDetailsComponent: React.FC<TenderDetailsProps> = ({
 }) => {
   const [tender, setTender] = useState<Tender>()
   const { data, refetch } = useGetTenderByCode(code);
-  console.log({code})
+  console.log({ code })
   useEffect(() => {
     if (code) {
       refetch()

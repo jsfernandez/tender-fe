@@ -6,5 +6,5 @@ export const useGetTenderList = () => {
         fetch(`http://localhost:3030/tender`).then(res =>
             res.json()
         )
-    , { enabled: true, staleTime: Infinity })
-}
+        , { enabled: true, staleTime: Infinity, cacheTime: 300000 })
+    }

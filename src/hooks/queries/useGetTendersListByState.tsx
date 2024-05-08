@@ -6,5 +6,5 @@ export const useGetTenderListByState = () => {
         fetch('http://localhost:3030/tender/state/published').then(res =>
             res.json()
         )
-    , { enabled: true, staleTime: Infinity })
+    , { enabled: true, staleTime: Infinity, cacheTime: 300000 })
 }
